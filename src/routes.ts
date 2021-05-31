@@ -10,6 +10,17 @@ import {
   createUserSchema,
   createUserSessionSchema,
 } from "./schema/user.schema";
+import {
+  createPostSchema,
+  updatePostSchema,
+  deletePostSchema,
+} from "./schema/post.schema";
+import {
+  createPostHandler,
+  getPostHandler,
+  updatePostHandler,
+  deletePostHandler,
+} from "./controller/post.controller";
 export default function (app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
     res.sendStatus(200);
@@ -28,4 +39,27 @@ export default function (app: Express) {
 
   //Logout DELETE /api/sessions
   app.delete("/api/sessions", requiresUser, invalidateUserSessionHandler);
+
+  //Create a post
+  app.post(
+    "/api/posts",
+    [requiresUser, validateRequest(createPostSchema)],
+    createPostHandler
+  );
+
+  //Update a post
+  app.put(
+    "/api/posts/:postId",
+    [requiresUser, validateRequest(updatePostSchema)],
+    updatePostHandler
+  );
+  //Get a post
+  app.get("/api/posts/:postId", getPostHandler);
+
+  //Delete a post
+  app.delete(
+    "/api/posts/:postId",
+    [requiresUser, validateRequest(deletePostSchema)],
+    deletePostHandler
+  );
 }

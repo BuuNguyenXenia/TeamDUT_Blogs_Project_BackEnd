@@ -12,7 +12,7 @@ export interface SessionDocument extends mongoose.Document {
 const SessionSchema = new mongoose.Schema(
     {
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        valid: { type: Boolean, defautl: true },
+        valid: { type: Boolean, default: true },
         userAgent: { type: String },
     },
     { timestamps: true }
