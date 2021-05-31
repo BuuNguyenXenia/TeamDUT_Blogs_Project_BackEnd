@@ -1,4 +1,4 @@
-import { FilterQuery, LeanDocument, UpdateQuery ,} from "mongoose";
+import { FilterQuery, LeanDocument, UpdateQuery } from "mongoose";
 import config from "config";
 import { get } from "lodash";
 import { UserDocument } from "../model/user.model";
@@ -60,4 +60,8 @@ export async function updateSession(
   update: UpdateQuery<SessionDocument>
 ) {
   return Session.updateOne(query, update);
+}
+
+export async function findSessions(query: FilterQuery<SessionDocument>) {
+  return Session.find(query).lean();
 }

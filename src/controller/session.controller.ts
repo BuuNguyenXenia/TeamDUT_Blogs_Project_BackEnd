@@ -5,6 +5,7 @@ import {
   createSession,
   createAccessToken,
   updateSession,
+  findSessions
 } from "../service/session.service";
 import config from "config";
 import { sign } from "../untils/jwt.untils";
@@ -45,4 +46,12 @@ export async function invalidateUserSessionHandler(
   const user = await findUser({ _id: userId });
   log.info(`User {email:${user?.email},name:${user?.name}} LOGOUT SUCCESS`);
   return res.sendStatus(200);
+}
+
+export async function getUserSessionHandler(req: Request, res: Response) {
+  const userId = get(req, "user._id");
+
+  const sessions = await findSessions({ user: userId, valid: true });
+
+  return res.send(sessions);
 }

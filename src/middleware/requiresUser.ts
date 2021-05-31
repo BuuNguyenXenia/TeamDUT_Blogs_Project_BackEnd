@@ -9,6 +9,8 @@ const requiresUser = async (
   const user = get(req, "user");
 
   if (!user) {
+    console.log("dday");
+    
     return res.sendStatus(403);
   }
 
