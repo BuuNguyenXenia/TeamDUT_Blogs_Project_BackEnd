@@ -22,6 +22,9 @@ import {
   deletePostHandler,
 } from "./controller/post.controller";
 export default function (app: Express) {
+  app.get("/", (req: Request, res: Response) => {
+    res.sendStatus(200);
+  });
   app.get("/healthCheck", (req: Request, res: Response) => {
     res.sendStatus(200);
   });
@@ -62,4 +65,14 @@ export default function (app: Express) {
     [requiresUser, validateRequest(deletePostSchema)],
     deletePostHandler
   );
+
+  //Create a Comment in a post
+  // app.post(
+  //   "/api/posts/:postId",
+  //   [requiresUser, validateRequest(createCommentSchema)],
+  //   createCommentHandler
+  // );
+  
+  //Delete a Comment in a post
+
 }

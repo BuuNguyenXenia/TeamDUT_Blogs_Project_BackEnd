@@ -5,7 +5,7 @@ export const createUserSchema = object({
     name: string().required("Name is required"),
     password: string()
       .required("Password is required")
-      .min(6, "Password is too short - should be 6 chars minimum")
+      .min(8, "Password is too short - should be 6 chars minimum")
       .max(20, "Password is too long - should be 20 chars maximum")
       .matches(/^[a-zA-Z0-9_.-]*$/, "Password can only contain Latin letters."),
     passwordConfirmation: string().oneOf(
