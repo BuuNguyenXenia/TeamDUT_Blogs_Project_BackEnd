@@ -18,6 +18,7 @@ import {
 import {
   createPostHandler,
   getPostHandler,
+  getManyPostHandler,
   updatePostHandler,
   deletePostHandler,
 } from "./controller/post.controller";
@@ -58,7 +59,9 @@ export default function (app: Express) {
   );
   //Get a post
   app.get("/api/posts/:postId", getPostHandler);
-
+  
+  //Get many post 
+  app.get("/api/posts",getManyPostHandler)
   //Delete a post
   app.delete(
     "/api/posts/:postId",

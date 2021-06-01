@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import { get } from "lodash";
-import {findPost,createPost,deletePost,findAndUpdate} from "../service/post.service"
+import {
+  findPost,
+  createPost,
+  deletePost,
+  findAndUpdate,
+  getManyPost,
+} from "../service/post.service";
 
 export async function createPostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
@@ -42,7 +48,13 @@ export async function getPostHandler(req: Request, res: Response) {
 
   return res.send(post);
 }
-
+export async function getManyPostHandler(req: Request, res: Response) {
+  const page = get(req,"query.page")
+  const pageNumber = parseInt(page)
+  const list = await getManyPost(pageNumber);
+  return res.send(list);
+  // return res.send(result)
+}
 export async function deletePostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
   const postId = get(req, "params.postId");
