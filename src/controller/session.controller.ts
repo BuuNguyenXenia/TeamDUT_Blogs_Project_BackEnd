@@ -5,7 +5,7 @@ import {
   createSession,
   createAccessToken,
   updateSession,
-  findSessions
+  findSessions,
 } from "../service/session.service";
 import config from "config";
 import { sign } from "../untils/jwt.untils";
@@ -15,7 +15,7 @@ export async function createUserSessionHandler(req: Request, res: Response) {
   //validate the email and password
   const user = await validatePassword(req.body);
   // console.log(user);
-  
+
   if (!user) {
     return res.status(401).send("Invalid username or password");
   }
@@ -35,10 +35,14 @@ export async function createUserSessionHandler(req: Request, res: Response) {
 
   //Get role
   const role = user.role;
+  //Get name
+  const name = user.name;
+  //get email
+  const email = user.email;
 
   //Send refresh and access token back
-  log.info(`User ${user.name} LOGIN SUCCESS with email ${user.email}`)
-  return res.send({ accessToken, refreshToken ,role});
+  log.info(`User ${user.name} LOGIN SUCCESS with email ${user.email}`);
+  return res.send({ accessToken, refreshToken, role, name, email });
 }
 
 export async function invalidateUserSessionHandler(
