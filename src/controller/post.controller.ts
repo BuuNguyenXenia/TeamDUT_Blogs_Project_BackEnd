@@ -10,7 +10,12 @@ import {
 
 export async function createPostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
+  const userRole = get(req, "user.role");
 
+  //Check role
+  if (userRole != "admin") {
+    return res.sendStatus(401).send("Authorization Required"); //role is not admin
+  }
   const body = req.body;
 
   const post = await createPost({ ...body, user: userId });
@@ -21,7 +26,13 @@ export async function createPostHandler(req: Request, res: Response) {
 export async function updatePostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
   const postId = get(req, "params.postId");
+  const userRole = get(req, "user.role");
   const update = req.body;
+
+  //Check role
+  if (userRole != "admin") {
+    return res.sendStatus(401).send("Authorization Required"); //role is not admin
+  }
 
   const post = await findPost({ postId });
 
@@ -49,8 +60,8 @@ export async function getPostHandler(req: Request, res: Response) {
   return res.send(post);
 }
 export async function getManyPostHandler(req: Request, res: Response) {
-  const page = get(req,"query.page")
-  const pageNumber = parseInt(page)
+  const page = get(req, "query.page");
+  const pageNumber = parseInt(page);
   const list = await getManyPost(pageNumber);
   return res.send(list);
   // return res.send(result)
@@ -58,6 +69,12 @@ export async function getManyPostHandler(req: Request, res: Response) {
 export async function deletePostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
   const postId = get(req, "params.postId");
+  const userRole = get(req,"user.role");
+
+  //Check role
+  if (userRole != "admin") {
+    return res.sendStatus(401).send("Authorization Required"); //role is not admin
+  }
 
   const post = await findPost({ postId });
 

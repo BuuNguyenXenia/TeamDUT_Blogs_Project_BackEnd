@@ -14,7 +14,8 @@ import log from "../logger";
 export async function createUserSessionHandler(req: Request, res: Response) {
   //validate the email and password
   const user = await validatePassword(req.body);
-
+  console.log(user);
+  
   if (!user) {
     return res.status(401).send("Invalid username or password");
   }
