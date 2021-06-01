@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { get } from "lodash";
+import log from "../logger";
 import {
   findPost,
   createPost,
@@ -14,7 +15,8 @@ export async function createPostHandler(req: Request, res: Response) {
 
   //Check role
   if (userRole != "admin") {
-    return res.sendStatus(401).send("Authorization Required"); //role is not admin
+    return res.status(401).send("Authorization Required"); //role is not admin
+    log.error("Authorization Required");
   }
   const body = req.body;
 
@@ -31,7 +33,7 @@ export async function updatePostHandler(req: Request, res: Response) {
 
   //Check role
   if (userRole != "admin") {
-    return res.sendStatus(401).send("Authorization Required"); //role is not admin
+    return res.status(401).send("Authorization Required"); //role is not admin
   }
 
   const post = await findPost({ postId });
@@ -69,11 +71,12 @@ export async function getManyPostHandler(req: Request, res: Response) {
 export async function deletePostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
   const postId = get(req, "params.postId");
-  const userRole = get(req,"user.role");
+  const userRole = get(req, "user.role");
 
   //Check role
   if (userRole != "admin") {
-    return res.sendStatus(401).send("Authorization Required"); //role is not admin
+   
+    return res.status(401).send("Authorization Required"); //role is not admin
   }
 
   const post = await findPost({ postId });
