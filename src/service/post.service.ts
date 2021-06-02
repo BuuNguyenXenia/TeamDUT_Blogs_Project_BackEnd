@@ -33,10 +33,10 @@ export async function getManyPost(query: object) {
       sortMethod = { createdAt: 1 };
       break;
     case "-comments":
-      sortMethod = { comments: -1 };
+      sortMethod = { "comments.counts": -1 };
       break;
     case "+comments":
-      sortMethod = { comments: 1 };
+      sortMethod = { "comments.counts": 1 };
       break;
     case "-likes":
       sortMethod = { likes: -1 };
