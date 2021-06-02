@@ -35,7 +35,8 @@ export default function (app: Express) {
   //Register user  POST /api/user
   app.post("/api/users", validateRequest(createUserSchema), creatUserHandler);
 
-  //Get current User
+
+  //Get current User GET /api/users
   app.get("/api/users", requiresUser, getCurrentUserHandler);
 
   //Login POST /api/sessions

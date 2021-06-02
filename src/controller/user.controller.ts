@@ -13,7 +13,7 @@ export async function creatUserHandler(req: Request, res: Response) {
     return res.status(409).send(error.message);
   }
 }
-
+// Get Current User
 export async function getCurrentUserHandler(req: Request, res: Response) {
   const username = get(req, "user.name");
   const role = get(req, "user.role");
