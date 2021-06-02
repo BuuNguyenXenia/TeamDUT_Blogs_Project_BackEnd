@@ -24,6 +24,7 @@ import {
   updatePostHandler,
   deletePostHandler,
 } from "./controller/post.controller";
+import {createLikeHandler} from "./controller/like.controller"
 export default function (app: Express) {
   app.get("/", (req: Request, res: Response) => {
     res.sendStatus(200);
@@ -82,4 +83,7 @@ export default function (app: Express) {
     [requiresUser, validateRequest(createCommentSchema)],
     createCommentHandler
   );
+
+  //Like a Post 
+  app.post("/api/likes/:postId",requiresUser,createLikeHandler)
 }
