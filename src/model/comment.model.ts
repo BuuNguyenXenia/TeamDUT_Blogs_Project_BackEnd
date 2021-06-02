@@ -1,32 +1,31 @@
 import mongoose from "mongoose";
 import { nanoid } from "nanoid";
 import { UserDocument } from "./user.model";
+import { PostDocument } from "./post.model";
 
-export interface PostDocument extends mongoose.Document {
+export interface CommentDocument extends mongoose.Document {
   user: UserDocument["_id"];
-  title: string;
+  post: string;
   body: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const PostSchema = new mongoose.Schema(
+const CommentSchema = new mongoose.Schema(
   {
-    postId: {
+    commentId: {
       type: String,
       required: true,
       unique: true,
       default: () => nanoid(10),
     },
     user: { type: mongoose.Types.ObjectId, ref: "User" },
-    title: { type: String, default: true },
+    post: { type: String,default:true },
     body: { type: String, default: true },
   },
   { timestamps: true }
 );
 
-PostSchema.index({'$**': 'text'});
+const Comment = mongoose.model<CommentDocument>("Comment", CommentSchema);
 
-const Post = mongoose.model<PostDocument>("Post", PostSchema);
-
-export default Post;
+export default Comment;

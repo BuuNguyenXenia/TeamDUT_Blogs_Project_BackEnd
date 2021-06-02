@@ -15,6 +15,8 @@ import {
   updatePostSchema,
   deletePostSchema,
 } from "./schema/post.schema";
+import { createCommentSchema } from "./schema/comment.schema";
+import {createCommentHandler} from "./controller/comment.controller"
 import {
   createPostHandler,
   getPostHandler,
@@ -59,9 +61,9 @@ export default function (app: Express) {
   );
   //Get a post
   app.get("/api/posts/:postId", getPostHandler);
-  
-  //Get many post 
-  app.get("/api/posts",getManyPostHandler)
+
+  //Get many post
+  app.get("/api/posts", getManyPostHandler);
   //Delete a post
   app.delete(
     "/api/posts/:postId",
@@ -69,13 +71,13 @@ export default function (app: Express) {
     deletePostHandler
   );
 
-  //Create a Comment in a post
-  // app.post(
-  //   "/api/posts/:postId",
-  //   [requiresUser, validateRequest(createCommentSchema)],
-  //   createCommentHandler
-  // );
-  
-  //Delete a Comment in a post
+  // Create a Comment in a post
+  app.post(
+    "/api/posts/:postId",
+    [requiresUser, validateRequest(createCommentSchema)],
+    createCommentHandler
+  );
 
+  //Delete a Comment in a post
+  
 }
