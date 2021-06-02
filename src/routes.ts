@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import { creatUserHandler } from "./controller/user.controller";
+import { creatUserHandler,getCurrentUserHandler } from "./controller/user.controller";
 import {
   createUserSessionHandler,
   invalidateUserSessionHandler,
@@ -16,7 +16,7 @@ import {
   deletePostSchema,
 } from "./schema/post.schema";
 import { createCommentSchema } from "./schema/comment.schema";
-import {createCommentHandler} from "./controller/comment.controller"
+import { createCommentHandler } from "./controller/comment.controller";
 import {
   createPostHandler,
   getPostHandler,
@@ -34,6 +34,10 @@ export default function (app: Express) {
 
   //Register user  POST /api/user
   app.post("/api/users", validateRequest(createUserSchema), creatUserHandler);
+
+  //Get current User
+  app.get("/api/users", requiresUser, getCurrentUserHandler);
+
   //Login POST /api/sessions
   app.post(
     "/api/sessions",
@@ -77,7 +81,4 @@ export default function (app: Express) {
     [requiresUser, validateRequest(createCommentSchema)],
     createCommentHandler
   );
-
-  //Delete a Comment in a post
-  
 }
