@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { get } from "lodash";
 import log from "../logger";
-import { findPost } from "../service/post.service";
+import { findAndUpdate, findPost } from "../service/post.service";
 import { createComment } from "../service/comment.service";
+import { concat } from "lodash";
 
 export async function createCommentHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
@@ -17,7 +18,26 @@ export async function createCommentHandler(req: Request, res: Response) {
     return res.sendStatus(404);
   }
   console.log(post);
-  
-  const comment = await createComment({ ...body, user: userId, post: postId });
-  return res.send(comment);
+
+  //Create Comment
+  const comment = await createComment({
+    ...body,
+    user: userId,
+    post: postId,
+    username: username,
+  });
+
+  const counts = get(post, "comments.counts");
+  const data = get(post, "comments.data");
+
+  const update = {
+    comments: {
+      counts: counts + 1,
+      data: [...concat(data, comment)],
+    },
+  };
+
+  const updatePost = await findAndUpdate({ postId }, update, { new: true });
+
+  return res.send(updatePost);
 }

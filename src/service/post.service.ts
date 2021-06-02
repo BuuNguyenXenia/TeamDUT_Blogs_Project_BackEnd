@@ -6,6 +6,7 @@ import {
 } from "mongoose";
 import Post, { PostDocument } from "../model/post.model";
 import { get } from "lodash";
+import Comment from "../model/comment.model";
 
 export function createPost(input: DocumentDefinition<PostDocument>) {
   return Post.create(input);

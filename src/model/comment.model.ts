@@ -6,6 +6,7 @@ import { PostDocument } from "./post.model";
 export interface CommentDocument extends mongoose.Document {
   user: UserDocument["_id"];
   post: string;
+  username:string;
   body: string;
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +22,7 @@ const CommentSchema = new mongoose.Schema(
     },
     user: { type: mongoose.Types.ObjectId, ref: "User" },
     post: { type: String,default:true },
+    username: { type: String,default:true },
     body: { type: String, default: true },
   },
   { timestamps: true }
