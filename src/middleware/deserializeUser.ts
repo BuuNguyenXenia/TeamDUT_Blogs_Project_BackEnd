@@ -22,7 +22,7 @@ const deserializeUser = async (
   if (decoded) {
     // @ts-ignore
     req.user = decoded;
-
+    
     return next();
   }
 

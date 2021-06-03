@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import config from "config";
 import { omit } from "lodash";
 import {
   createUser,
@@ -7,6 +9,7 @@ import {
 } from "../service/user.service";
 import log from "../logger";
 import { get } from "lodash";
+import User from "../model/user.model";
 
 export async function creatUserHandler(req: Request, res: Response) {
   try {
@@ -39,4 +42,32 @@ export async function updateUserHandler(req: Request, res: Response) {
 
   const updateUser = await findUserAndUpdate({ name }, update, { new: true });
   return res.send(updateUser);
+}
+
+//Change Password
+export async function updatePasswordHandler(req: Request, res: Response) {
+  const name = get(req, "params.name");
+  const password = get(req, "body.password");
+  const newPassword = get(req, "body.newPassword");
+
+  //Find User
+  const user = await User.findOne({ name });
+  if (!user) {
+    return res.sendStatus(401);
+  }
+  //Check if password is not correct
+  const isValid = await user.comparePassword(password);
+  if (!isValid) {
+    return res.status(404).send("Old Password is not correct");
+  }
+
+  //Hash newPassword then replace
+  const salt = await bcrypt.genSalt(config.get("saltWorkFactor"));
+
+  const hash = bcrypt.hashSync(newPassword, salt);
+  const update = {
+    password: hash,
+  };
+  findUserAndUpdate({ name }, update, { new: true });
+  return res.status(200).send("Success");
 }
