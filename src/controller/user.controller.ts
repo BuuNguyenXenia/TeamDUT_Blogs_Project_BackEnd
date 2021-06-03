@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { omit } from "lodash";
-import { createUser } from "../service/user.service";
+import {
+  createUser,
+  findUser,
+  findUserAndUpdate,
+} from "../service/user.service";
 import log from "../logger";
 import { get } from "lodash";
 
@@ -19,4 +23,20 @@ export async function getCurrentUserHandler(req: Request, res: Response) {
   const role = get(req, "user.role");
   const email = get(req, "user.email");
   return res.send({ username, role, email });
+}
+
+//Update User
+
+export async function updateUserHandler(req: Request, res: Response) {
+  const name = get(req, "params.name");
+  const update = req.body;
+
+  //Find User
+  const user = await findUser({ name });
+  if (!user) {
+    return res.sendStatus(401);
+  }
+
+  const updateUser = await findUserAndUpdate({ name }, update, { new: true });
+  return res.send(updateUser);
 }

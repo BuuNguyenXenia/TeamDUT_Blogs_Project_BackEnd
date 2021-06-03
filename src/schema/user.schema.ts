@@ -30,3 +30,21 @@ export const createUserSessionSchema = object({
       .required("Email is required"),
   }),
 });
+
+const payload = {
+  body: object({
+    name: string().required("Username is required"),
+    email: string()
+      .email("Must be a valid email")
+      .required("Email is required"),
+  }),
+};
+const params = {
+  params: object({
+    name: string().required("name of user is required"),
+  }),
+};
+export const updateUserSchema = object({
+  ...payload,
+  ...params,
+});

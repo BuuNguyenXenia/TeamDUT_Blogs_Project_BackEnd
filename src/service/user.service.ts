@@ -1,5 +1,10 @@
 import { omit } from "lodash";
-import { DocumentDefinition, FilterQuery, UpdateQuery } from "mongoose";
+import {
+  DocumentDefinition,
+  FilterQuery,
+  QueryOptions,
+  UpdateQuery,
+} from "mongoose";
 import Session, { SessionDocument } from "../model/session.model";
 import User, { UserDocument } from "../model/user.model";
 
@@ -15,6 +20,13 @@ export async function findUser(query: FilterQuery<UserDocument>) {
   return User.findOne(query).lean();
 }
 
+export async function findUserAndUpdate(
+  query: FilterQuery<UserDocument>,
+  update: UpdateQuery<UserDocument>,
+  options: QueryOptions
+) {
+  return User.findOneAndUpdate(query, update, options);
+}
 export async function validatePassword({
   email,
   password,
@@ -33,5 +45,3 @@ export async function validatePassword({
 
   return omit(user.toJSON(), "password");
 }
-
-

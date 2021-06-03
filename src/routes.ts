@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import { creatUserHandler,getCurrentUserHandler } from "./controller/user.controller";
+import { creatUserHandler,getCurrentUserHandler,updateUserHandler } from "./controller/user.controller";
 import {
   createUserSessionHandler,
   invalidateUserSessionHandler,
@@ -9,6 +9,7 @@ import { validateRequest, requiresUser } from "./middleware";
 import {
   createUserSchema,
   createUserSessionSchema,
+  updateUserSchema
 } from "./schema/user.schema";
 import {
   createPostSchema,
@@ -39,7 +40,9 @@ export default function (app: Express) {
 
   //Get current User GET /api/users
   app.get("/api/users", requiresUser, getCurrentUserHandler);
-
+  
+  //Update current user information
+  app.put("/api/users/:name",[requiresUser,validateRequest(updateUserSchema)],updateUserHandler)
   //Login POST /api/sessions
   app.post(
     "/api/sessions",
