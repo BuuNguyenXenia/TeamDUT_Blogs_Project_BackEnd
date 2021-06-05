@@ -1,5 +1,10 @@
 import { Express, Request, Response } from "express";
-import { creatUserHandler } from "./controller/user.controller";
+import {
+  creatUserHandler,
+  getCurrentUserHandler,
+  updateUserHandler,
+  updatePasswordHandler,
+} from "./controller/user.controller";
 import {
   createUserSessionHandler,
   invalidateUserSessionHandler,
@@ -9,12 +14,16 @@ import { validateRequest, requiresUser } from "./middleware";
 import {
   createUserSchema,
   createUserSessionSchema,
+  updateUserSchema,
+  updatePasswordSchema,
 } from "./schema/user.schema";
 import {
   createPostSchema,
   updatePostSchema,
   deletePostSchema,
 } from "./schema/post.schema";
+import { createCommentSchema } from "./schema/comment.schema";
+import { createCommentHandler } from "./controller/comment.controller";
 import {
   createPostHandler,
   getPostHandler,
@@ -22,6 +31,7 @@ import {
   updatePostHandler,
   deletePostHandler,
 } from "./controller/post.controller";
+import { createLikeHandler } from "./controller/like.controller";
 export default function (app: Express) {
   app.get("/", (req: Request, res: Response) => {
     res.sendStatus(200);
@@ -32,6 +42,24 @@ export default function (app: Express) {
 
   //Register user  POST /api/user
   app.post("/api/users", validateRequest(createUserSchema), creatUserHandler);
+
+  //Get current User GET /api/users
+  app.get("/api/users", requiresUser, getCurrentUserHandler);
+
+  //Update current user information
+  app.put(
+    "/api/users/:name",
+    [requiresUser, validateRequest(updateUserSchema)],
+    updateUserHandler
+  );
+
+  //Change password
+  app.put(
+    "/api/password/:name",
+    [requiresUser, validateRequest(updatePasswordSchema)],
+    updatePasswordHandler
+  );
+
   //Login POST /api/sessions
   app.post(
     "/api/sessions",
@@ -59,9 +87,9 @@ export default function (app: Express) {
   );
   //Get a post
   app.get("/api/posts/:postId", getPostHandler);
-  
-  //Get many post 
-  app.get("/api/posts",getManyPostHandler)
+
+  //Get many post
+  app.get("/api/posts", getManyPostHandler);
   //Delete a post
   app.delete(
     "/api/posts/:postId",
@@ -69,13 +97,13 @@ export default function (app: Express) {
     deletePostHandler
   );
 
-  //Create a Comment in a post
-  // app.post(
-  //   "/api/posts/:postId",
-  //   [requiresUser, validateRequest(createCommentSchema)],
-  //   createCommentHandler
-  // );
-  
-  //Delete a Comment in a post
+  // Create a Comment in a post
+  app.post(
+    "/api/posts/:postId",
+    [requiresUser, validateRequest(createCommentSchema)],
+    createCommentHandler
+  );
 
+  //Like a Post
+  app.post("/api/likes/:postId", requiresUser, createLikeHandler);
 }

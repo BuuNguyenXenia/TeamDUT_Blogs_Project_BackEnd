@@ -62,9 +62,10 @@ export async function getPostHandler(req: Request, res: Response) {
   return res.send(post);
 }
 export async function getManyPostHandler(req: Request, res: Response) {
-  const page = get(req, "query.page");
-  const pageNumber = parseInt(page);
-  const list = await getManyPost(pageNumber);
+  // const page = get(req, "query.page");
+  // const pageNumber = parseInt(page);
+  const query = req.query;
+  const list = await getManyPost(query);
   return res.send(list);
   // return res.send(result)
 }
@@ -75,7 +76,6 @@ export async function deletePostHandler(req: Request, res: Response) {
 
   //Check role
   if (userRole != "admin") {
-   
     return res.status(401).send("Authorization Required"); //role is not admin
   }
 
