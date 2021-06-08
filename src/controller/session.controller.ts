@@ -19,6 +19,10 @@ export async function createUserSessionHandler(req: Request, res: Response) {
   if (!user) {
     return res.status(401).send("Invalid username or password");
   }
+
+  if (user.isActive == false) {
+    return res.status(404).send("Account has not been activated");
+  }
   //Create a session
   const session = await createSession(user._id, req.get("user-agent") || "");
 

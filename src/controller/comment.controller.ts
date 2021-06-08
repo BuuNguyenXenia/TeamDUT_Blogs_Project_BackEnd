@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
-import { get } from "lodash";
-import log from "../logger";
 import { findAndUpdate, findPost } from "../service/post.service";
 import { createComment } from "../service/comment.service";
-import { concat } from "lodash";
+import { concat, get } from "lodash";
 
 export async function createCommentHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
@@ -17,8 +15,6 @@ export async function createCommentHandler(req: Request, res: Response) {
   if (!post) {
     return res.sendStatus(404);
   }
-  console.log(post);
-
   //Create Comment
   const comment = await createComment({
     ...body,
