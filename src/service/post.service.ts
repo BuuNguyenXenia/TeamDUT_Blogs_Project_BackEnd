@@ -71,6 +71,48 @@ export async function getManyPost(query: object) {
   }
 }
 
+export async function getMyPost(query: object, userId: object) {
+  const per_page = parseInt(get(query, "per_page")) || 10;
+  const page = parseInt(get(query, "page")) || 1;
+  const sort_by = get(query, "sort_by") || "-createdAt";
+  let sortMethod;
+  let result;
+  switch (sort_by) {
+    case "-createdAt":
+      sortMethod = { createdAt: -1 };
+      break;
+    case "+createdAt":
+      sortMethod = { createdAt: 1 };
+      break;
+    case "-comments":
+      sortMethod = { "comments.counts": -1 };
+      break;
+    case "+comments":
+      sortMethod = { "comments.counts": 1 };
+      break;
+    case "-likes":
+      sortMethod = { likes: -1 };
+      break;
+    case "+likes":
+      sortMethod = { likes: 1 };
+      break;
+    default:
+      break;
+  }
+  try {
+    const posts = await Post.find({ user:userId})
+        .limit(per_page)
+        .skip(per_page * (page - 1))
+        .sort(sortMethod);
+      const x = await Post.find({ user:userId});
+      const count = x.length;
+      const last_page = Math.ceil(count / per_page);
+      return { count, last_page, posts };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function findAndUpdate(
   query: FilterQuery<PostDocument>,
   update: UpdateQuery<PostDocument>,

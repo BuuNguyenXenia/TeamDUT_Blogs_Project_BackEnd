@@ -5,7 +5,7 @@ import connect from "./db/connect";
 import routes from "./routes";
 import { deserializeUser } from "./middleware";
 import cors from "cors";
-
+import {trigger} from "./utils/pusher.utils"
 const port = process.env.PORT || 8080;
 
 const host = config.get("host") as string;
@@ -20,6 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 app.listen(port, () => {
   log.info(`Server listing at http://${host}:${port}`);
   connect();
-
+  
   routes(app);
 });

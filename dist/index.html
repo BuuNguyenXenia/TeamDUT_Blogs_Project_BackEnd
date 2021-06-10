@@ -28,11 +28,26 @@
         background: #fafafa;
       }
     </style>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+  
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = true;
+  
+      var pusher = new Pusher('5ee23d2be54abf269991', {
+        cluster: 'ap1'
+      });
+  
+      var channel = pusher.subscribe('my-channel');
+    
+      channel.bind('my-event', function(data) {
+        alert(JSON.stringify(data));
+      });
+    </script>
   </head>
 
   <body>
     <div id="swagger-ui"></div>
-
     <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
     <script>

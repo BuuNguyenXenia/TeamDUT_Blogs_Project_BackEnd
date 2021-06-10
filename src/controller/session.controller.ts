@@ -8,7 +8,7 @@ import {
   findSessions,
 } from "../service/session.service";
 import config from "config";
-import { sign } from "../untils/jwt.untils";
+import { sign } from "../utils/jwt.utils";
 import log from "../logger";
 
 export async function createUserSessionHandler(req: Request, res: Response) {

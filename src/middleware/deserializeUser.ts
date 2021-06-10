@@ -1,6 +1,7 @@
 import { get } from "lodash";
 import { Request, Response, NextFunction } from "express";
-import { decode } from "../untils/jwt.untils";
+// import { decode } from "../utils/jwt.utils";
+import { decode } from "../utils/jwt.utils";
 import { reIssueAccessToken } from "../service/session.service";
 
 const deserializeUser = async (
@@ -22,7 +23,7 @@ const deserializeUser = async (
   if (decoded) {
     // @ts-ignore
     req.user = decoded;
-    
+
     return next();
   }
 

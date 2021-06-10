@@ -34,6 +34,7 @@ import {
   getManyPostHandler,
   updatePostHandler,
   deletePostHandler,
+  getMyPostHandler
 } from "./controller/post.controller";
 import { createLikeHandler } from "./controller/like.controller";
 import { changeAvatarSchema } from "./schema/avatar.schema";
@@ -105,6 +106,10 @@ export default function (app: Express) {
 
   //Get many post
   app.get("/api/posts", getManyPostHandler);
+
+  //Get my post
+  app.get("/api/mypost",requiresUser,getMyPostHandler)
+
   //Delete a post
   app.delete(
     "/api/posts/:postId",

@@ -10,7 +10,7 @@ import {
 import log from "../logger";
 import { get } from "lodash";
 import User from "../model/user.model";
-import { sign, decode } from "../untils/jwt.untils";
+import { sign, decode } from "../utils/jwt.utils";
 const mailjet = require("node-mailjet").connect(
   config.get("MJ_APIKEY_PUBLIC"),
   config.get("MJ_APIKEY_PRIVATE")
@@ -22,7 +22,7 @@ export async function creatUserHandler(req: Request, res: Response) {
     if (tempUser) {
       return res
         .status(409)
-        .send("MongoError: E11000 duplicate key name error collection");
+        .send("This name is already in use");
     }
     const user = await createUser(req.body);
 
@@ -41,7 +41,7 @@ export async function creatUserHandler(req: Request, res: Response) {
         {
           From: {
             Email: "holehuy2003@gmail.com",
-            Name: "Huy",
+            Name: "TeamDUT",
           },
           To: [
             {
@@ -68,7 +68,7 @@ export async function creatUserHandler(req: Request, res: Response) {
       });
   } catch (error) {
     log.error(error);
-    return res.status(409).send(error.message);
+    return res.status(409).send("This email is already in use");
   }
 }
 // Get Current User
@@ -172,7 +172,7 @@ export async function forgotPasswordHandler(req: Request, res: Response) {
       {
         From: {
           Email: "holehuy2003@gmail.com",
-          Name: "Huy",
+          Name: "TeamDUT",
         },
         To: [
           {

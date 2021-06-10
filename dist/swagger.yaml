@@ -228,6 +228,63 @@ paths:
           description: ''
           headers: {}
       deprecated: false
+  /api/mypost:
+    get:
+      tags:
+      - Post
+      summary: Get My Posts
+      operationId: GetMyPosts
+      parameters:
+      - name: x-refresh
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "{{refreshToken}}"
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "Bearer {{accessToken}}"
+      - name: sort_by
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: -comments,+comments,-likes,+likes,-createdAt,+createdAt
+      - name: page
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+      - name: per_page
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 10
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
   /posts/{postId}:
     put:
       tags:
