@@ -8,6 +8,7 @@ export interface PostDocument extends mongoose.Document {
   body: string;
   comments: object;
   likes: object;
+  image: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,6 +25,7 @@ const PostSchema = new mongoose.Schema(
     title: { type: String, default: true },
     comments: { type: Object, default: { counts: 0, data: [] } },
     likes: { type: Object, default: { counts: 0, data: [] } },
+    image:{type:String,default: "https://i.imgur.com/LEz5h8B.jpg"},
     body: { type: String, default: true },
   },
   { timestamps: true }

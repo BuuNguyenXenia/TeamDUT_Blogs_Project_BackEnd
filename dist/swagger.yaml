@@ -173,6 +173,7 @@ paths:
             example:
               title: Đây là nội dung của bài viết
               body: Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BsC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
+              image: https://link-image.com.vn
         required: true
       responses:
         '200':
@@ -324,7 +325,6 @@ paths:
             example:
               title: Admin có những quyền gì, phân quyền trong Expressjs UPDATE
               body: Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
-              comments: 4
         required: true
       responses:
         '200':
@@ -719,6 +719,8 @@ components:
           type: string
         body:
           type: string
+        image: 
+          type: string
       example:
         title: Đây là nội dung của bài viết
         body: Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BsC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
@@ -727,20 +729,15 @@ components:
       required:
       - title
       - body
-      - comments
       type: object
       properties:
         title:
           type: string
         body:
           type: string
-        comments:
-          type: integer
-          format: int32
       example:
         title: Admin có những quyền gì, phân quyền trong Expressjs UPDATE
         body: Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
-        comments: 4
     CreateCommentRequest:
       title: CreateCommentRequest
       required:
