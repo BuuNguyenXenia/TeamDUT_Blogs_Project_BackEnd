@@ -20,4 +20,6 @@ export default {
     9yd2/6ZNDPT24g8rcQMCQDmgRHaDzb4haa6Wqs8s1hbqWq/MTQrVAZdtd5LohSoD
     NPz5o/x+g+pYiToUywxS6T1z13h0OGfYvoPhqqEFeqQ=
     -----END RSA PRIVATE KEY-----`,
+  MJ_APIKEY_PUBLIC: "9955bbf824867c9530bfad45d687030c",
+  MJ_APIKEY_PRIVATE: "82d85e05a3b697f5fa65f613ff325015",
 };

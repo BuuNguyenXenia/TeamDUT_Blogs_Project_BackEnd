@@ -7,6 +7,7 @@ import {
   deletePost,
   findAndUpdate,
   getManyPost,
+  getMyPost,
 } from "../service/post.service";
 
 export async function createPostHandler(req: Request, res: Response) {
@@ -68,6 +69,12 @@ export async function getManyPostHandler(req: Request, res: Response) {
   const list = await getManyPost(query);
   return res.send(list);
   // return res.send(result)
+}
+export async function getMyPostHandler(req: Request, res: Response) {
+  const query = req.query;
+  const userId = get(req,"user._id");
+  const list = await getMyPost(query,userId);
+  return res.send(list);
 }
 export async function deletePostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");

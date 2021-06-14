@@ -3,7 +3,7 @@ import config from "config";
 import { get } from "lodash";
 import { UserDocument } from "../model/user.model";
 import Session, { SessionDocument } from "../model/session.model";
-import { sign, decode } from "../untils/jwt.untils";
+import { sign, decode } from "../utils/jwt.utils";
 import { findUser } from "../service/user.service";
 export async function createSession(userId: string, userAgent: string) {
   const session = await Session.create({ user: userId, userAgent });

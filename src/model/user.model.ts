@@ -9,15 +9,26 @@ export interface UserDocument extends mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   role: string;
+  avatar: string;
+  resetLink: string;
+  activeLink: string;
+  isActive: boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const UserSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: "user" },
+    avatar: {
+      type: String,
+      default: "https://i.imgur.com/KDv3nCT.png",
+    },
+    resetLink: { type: String, default: "" },
+    activeLink: { type: String, default: "" },
+    isActive: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

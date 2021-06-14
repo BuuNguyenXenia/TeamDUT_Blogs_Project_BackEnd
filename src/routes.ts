@@ -4,6 +4,10 @@ import {
   getCurrentUserHandler,
   updateUserHandler,
   updatePasswordHandler,
+  changeAvatarHandler,
+  forgotPasswordHandler,
+  resetPasswordHandler,
+  activeUserHandler,
 } from "./controller/user.controller";
 import {
   createUserSessionHandler,
@@ -30,11 +34,17 @@ import {
   getManyPostHandler,
   updatePostHandler,
   deletePostHandler,
+  getMyPostHandler
 } from "./controller/post.controller";
 import { createLikeHandler } from "./controller/like.controller";
+import { changeAvatarSchema } from "./schema/avatar.schema";
+import {
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} from "./schema/password.schema";
 export default function (app: Express) {
   app.get("/", (req: Request, res: Response) => {
-    res.sendStatus(200);
+    res.sendFile("index.html");
   });
   app.get("/healthCheck", (req: Request, res: Response) => {
     res.sendStatus(200);
@@ -51,6 +61,12 @@ export default function (app: Express) {
     "/api/users/:name",
     [requiresUser, validateRequest(updateUserSchema)],
     updateUserHandler
+  );
+  //Change Avatar
+  app.put(
+    "/api/avatar/:name",
+    [requiresUser, validateRequest(changeAvatarSchema)],
+    changeAvatarHandler
   );
 
   //Change password
@@ -90,6 +106,10 @@ export default function (app: Express) {
 
   //Get many post
   app.get("/api/posts", getManyPostHandler);
+
+  //Get my post
+  app.get("/api/mypost",requiresUser,getMyPostHandler)
+
   //Delete a post
   app.delete(
     "/api/posts/:postId",
@@ -106,4 +126,19 @@ export default function (app: Express) {
 
   //Like a Post
   app.post("/api/likes/:postId", requiresUser, createLikeHandler);
+
+  //Forgot Password
+  app.put(
+    "/api/forgot-password",
+    validateRequest(forgotPasswordSchema),
+    forgotPasswordHandler
+  );
+  //Reset Password
+  app.put(
+    "/api/reset-password",
+    validateRequest(resetPasswordSchema),
+    resetPasswordHandler
+  );
+  //Activate Account
+  app.get("/api/active/:activeLink", activeUserHandler);
 }
