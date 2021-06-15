@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { get } from "lodash";
+import { get, omit } from "lodash";
 import log from "../logger";
 import {
   findPost,
@@ -9,6 +9,7 @@ import {
   getManyPost,
   getMyPost,
 } from "../service/post.service";
+import { findUser } from "../service/user.service";
 
 export async function createPostHandler(req: Request, res: Response) {
   const userId = get(req, "user._id");
@@ -59,6 +60,24 @@ export async function getPostHandler(req: Request, res: Response) {
   if (!post) {
     return res.sendStatus(404);
   }
+  if (post) {
+    const counts = get(post, "comments.counts");
+    const data = get(post, "comments.data");
+    for (var i = 0; i < data.length; i++) {
+      const userInfo = await findUser({ _id: data[i].user });
+      data[i].userInfo = omit(userInfo, [
+        "password",
+        "createdAt",
+        "updatedAt",
+        "role",
+        "__v",
+        "isActive",
+      ]);
+      delete data[i].username;
+      delete data[i].__v;
+    }
+    post.comments = { counts: counts, data: data };
+  }
 
   return res.send(post);
 }
@@ -72,8 +91,8 @@ export async function getManyPostHandler(req: Request, res: Response) {
 }
 export async function getMyPostHandler(req: Request, res: Response) {
   const query = req.query;
-  const userId = get(req,"user._id");
-  const list = await getMyPost(query,userId);
+  const userId = get(req, "user._id");
+  const list = await getMyPost(query, userId);
   return res.send(list);
 }
 export async function deletePostHandler(req: Request, res: Response) {

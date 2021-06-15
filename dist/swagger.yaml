@@ -643,6 +643,64 @@ paths:
           headers: {}
       deprecated: false
       security: []
+  /api/notification:
+    get:
+      tags: 
+      - Notification
+      summary: Get Admin Notification
+      operationId: GetNotification
+      parameters:
+      - name: x-refresh
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "{{refreshToken}}"
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "Bearer {{accessToken}}"
+      - name: sort_by
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: -createdAt,+createdAt
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+      - name: per_page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 10
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
 components:
   schemas:
     CreateUserRequest:

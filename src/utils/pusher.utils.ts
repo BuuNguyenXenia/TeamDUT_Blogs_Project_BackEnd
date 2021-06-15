@@ -10,6 +10,6 @@ const pusher = new Pusher({
 //   message: "hello world"
 // });
 
-export async function trigger(channel: string|any, event: string, message: object) {
+export function trigger(channel: string|any, event: string, message: object) {
   return pusher.trigger(channel, event, message);
 }
