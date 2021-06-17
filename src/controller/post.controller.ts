@@ -60,26 +60,26 @@ export async function getPostHandler(req: Request, res: Response) {
   if (!post) {
     return res.sendStatus(404);
   }
-  if (post) {
-    const counts = get(post, "comments.counts");
-    const data = get(post, "comments.data");
-    for (var i = 0; i < data.length; i++) {
-      const userInfo = await findUser({ _id: data[i].user });
-      data[i].userInfo = omit(userInfo, [
-        "password",
-        "createdAt",
-        "updatedAt",
-        "role",
-        "__v",
-        "isActive",
-      ]);
-      delete data[i].username;
-      delete data[i].__v;
-    }
-    post.comments = { counts: counts, data: data };
-  }
+  // if (post) {
+  //   const counts = get(post, "comments.counts");
+  //   const data = get(post, "comments.data");
+  //   let userIdArray: Array<any> = [];
+  //   let userInfoArray: Array<any> = [];
+  //   for (var i = 0; i < data.length; i++) {
+  //     if (userIdArray.includes(data[i].user)) {
+  //       const index = userIdArray.findIndex(data[i].user);
+  //       data[i].userInfo = omit(userInfoArray[index], "password");
+  //     } else {
+  //       userIdArray.push(data[i].user);
+  //       const userInfo = await findUser({ _id: data[i].user });
+  //       userInfoArray.push(userInfo);
+  //       data[i].userInfo = omit(userInfo, "password");
+  //     }
+  //   }
+  //   post.comments = { counts: counts, data: data };
+  // }
 
-  return res.send(post);
+  return res.send(omit(post,"comments"));
 }
 export async function getManyPostHandler(req: Request, res: Response) {
   // const page = get(req, "query.page");

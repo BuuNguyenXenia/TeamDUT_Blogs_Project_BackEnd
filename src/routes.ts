@@ -27,7 +27,7 @@ import {
   deletePostSchema,
 } from "./schema/post.schema";
 import { createCommentSchema } from "./schema/comment.schema";
-import { createCommentHandler } from "./controller/comment.controller";
+import { createCommentHandler,getCommentsHandler } from "./controller/comment.controller";
 import {
   createPostHandler,
   getPostHandler,
@@ -42,7 +42,7 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
 } from "./schema/password.schema";
-import { getNotificationHandler } from "./controller/notification.controller";
+import { getNotificationHandler ,setViewedNotificationHandler,readAllNotificationHandler} from "./controller/notification.controller";
 export default function (app: Express) {
   app.get("/", (req: Request, res: Response) => {
     res.sendFile("index.html");
@@ -145,4 +145,13 @@ export default function (app: Express) {
 
   //Get Notification
   app.get("/api/notification", requiresUser, getNotificationHandler);
+
+  //Set Viewed Notification
+  app.post("/api/notification/:notificationId",requiresUser,setViewedNotificationHandler)
+
+  //Read All Notification
+  app.post("/api/notification",requiresUser,readAllNotificationHandler);
+  
+  //Get Comment
+  app.get("/api/comments/:postId",getCommentsHandler)
 }

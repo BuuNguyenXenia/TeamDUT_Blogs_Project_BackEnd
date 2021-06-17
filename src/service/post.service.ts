@@ -52,7 +52,7 @@ export async function getManyPost(query: object) {
   }
   try {
     if (search == "") {
-      const posts = await Post.find()
+      const posts = await Post.find({},{"comments":0})
         .limit(per_page)
         .skip(per_page * (page - 1))
         .sort(sortMethod);
@@ -60,7 +60,7 @@ export async function getManyPost(query: object) {
       const last_page = Math.ceil(count / per_page);
       return { count, last_page, posts };
     } else {
-      const posts = await Post.find({ $text: { $search: search } })
+      const posts = await Post.find({ $text: { $search: search } },{"comments":0})
         .limit(per_page)
         .skip(per_page * (page - 1))
         .sort(sortMethod);
@@ -103,7 +103,7 @@ export async function getMyPost(query: object, userId: object) {
       break;
   }
   try {
-    const posts = await Post.find({ user: userId })
+    const posts = await Post.find({ user: userId },{"comments":0})
       .limit(per_page)
       .skip(per_page * (page - 1))
       .sort(sortMethod);
