@@ -25,7 +25,7 @@ const PostSchema = new mongoose.Schema(
     title: { type: String, default: true },
     comments: { type: Object, default: { counts: 0, data: [] } },
     likes: { type: Object, default: { counts: 0, data: [] } },
-    image:{type:String,default: "https://i.imgur.com/LEz5h8B.jpg"},
+    image:{type:String,default: "https://res.cloudinary.com/rhy123/image/upload/v1623858910/LEz5h8B_fc5iez.jpg"},
     body: { type: String, default: true },
   },
   { timestamps: true }

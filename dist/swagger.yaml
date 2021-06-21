@@ -643,6 +643,140 @@ paths:
           headers: {}
       deprecated: false
       security: []
+  /api/notification:
+    get:
+      tags: 
+      - Notification
+      summary: Get Admin Notification
+      operationId: GetNotification
+      parameters:
+      - name: x-refresh
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "{{refreshToken}}"
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "Bearer {{accessToken}}"
+      - name: sort_by
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: -createdAt,+createdAt
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+      - name: per_page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 10
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+    post:
+      tags: 
+      - Notification
+      summary: SeeAllNotifications
+      operationId: SeeAllNotifications
+      parameters:
+      - name: x-refresh
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "{{refreshToken}}"
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "Bearer {{accessToken}}"
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/notification/{notificationId}:
+    post:
+      tags: 
+      - Notification
+      summary: Set Viewed Notifications
+      operationId: SetViewedNotifications
+      parameters:
+      - name: x-refresh
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "{{refreshToken}}"
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "Bearer {{accessToken}}"
+      - name: notificationId
+        in: params
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: "keoL-sknen"
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/comments/{postId}:
+    get:
+      tags:
+      - Comment
+      summary: Get Comments of Post
+      operationId: GetCommentsOfPost
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
 components:
   schemas:
     CreateUserRequest:

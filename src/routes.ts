@@ -27,14 +27,14 @@ import {
   deletePostSchema,
 } from "./schema/post.schema";
 import { createCommentSchema } from "./schema/comment.schema";
-import { createCommentHandler } from "./controller/comment.controller";
+import { createCommentHandler,getCommentsHandler } from "./controller/comment.controller";
 import {
   createPostHandler,
   getPostHandler,
   getManyPostHandler,
   updatePostHandler,
   deletePostHandler,
-  getMyPostHandler
+  getMyPostHandler,
 } from "./controller/post.controller";
 import { createLikeHandler } from "./controller/like.controller";
 import { changeAvatarSchema } from "./schema/avatar.schema";
@@ -42,6 +42,7 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
 } from "./schema/password.schema";
+import { getNotificationHandler ,setViewedNotificationHandler,readAllNotificationHandler} from "./controller/notification.controller";
 export default function (app: Express) {
   app.get("/", (req: Request, res: Response) => {
     res.sendFile("index.html");
@@ -108,7 +109,7 @@ export default function (app: Express) {
   app.get("/api/posts", getManyPostHandler);
 
   //Get my post
-  app.get("/api/mypost",requiresUser,getMyPostHandler)
+  app.get("/api/mypost", requiresUser, getMyPostHandler);
 
   //Delete a post
   app.delete(
@@ -141,4 +142,16 @@ export default function (app: Express) {
   );
   //Activate Account
   app.get("/api/active/:activeLink", activeUserHandler);
+
+  //Get Notification
+  app.get("/api/notification", requiresUser, getNotificationHandler);
+
+  //Set Viewed Notification
+  app.post("/api/notification/:notificationId",requiresUser,setViewedNotificationHandler)
+
+  //Read All Notification
+  app.post("/api/notification",requiresUser,readAllNotificationHandler);
+  
+  //Get Comment
+  app.get("/api/comments/:postId",getCommentsHandler)
 }

@@ -6,7 +6,9 @@ import { PostDocument } from "./post.model";
 export interface CommentDocument extends mongoose.Document {
   user: UserDocument["_id"];
   post: string;
-  username:string;
+  username: string;
+  email: string;
+  avatar: string;
   body: string;
   createdAt: Date;
   updatedAt: Date;
@@ -21,9 +23,11 @@ const CommentSchema = new mongoose.Schema(
       default: () => nanoid(10),
     },
     user: { type: mongoose.Types.ObjectId, ref: "User" },
-    post: { type: String,default:true },
-    username: { type: String,default:true },
+    post: { type: String, default: true },
+    username: { type: String, default: true },
     body: { type: String, default: true },
+    email: { type: String, default: true },
+    avatar: { type: String, default: true },
   },
   { timestamps: true }
 );

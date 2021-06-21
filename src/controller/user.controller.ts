@@ -20,9 +20,7 @@ export async function creatUserHandler(req: Request, res: Response) {
     const name = get(req, "body.name");
     const tempUser = await findUser({ name });
     if (tempUser) {
-      return res
-        .status(409)
-        .send("This name is already in use");
+      return res.status(409).send("This name is already in use");
     }
     const user = await createUser(req.body);
 
@@ -245,12 +243,15 @@ export async function activeUserHandler(req: Request, res: Response) {
 
   const email = get(decoded, "email");
 
+  if (!email) {
+    return res.sendStatus(404)
+  }
   //Find User
   const user = await User.findOne({ email });
   if (!user) {
     return res.status(404).send("Invalid Token");
   }
-
+  
   const update = {
     activeLink: "",
     isActive: true,
@@ -262,6 +263,6 @@ export async function activeUserHandler(req: Request, res: Response) {
   if (userUpdate) {
     return res.status(200).redirect("https://front-end-blogs.vercel.app/login");
   } else {
-    res.sendStatus(404);
+    return res.sendStatus(404);
   }
 }

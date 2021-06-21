@@ -5,8 +5,11 @@ import {
   QueryOptions,
 } from "mongoose";
 import Post, { PostDocument } from "../model/post.model";
+import User, { UserDocument } from "../model/user.model";
+import { findUser } from "../service/user.service";
 import { get } from "lodash";
 import Comment from "../model/comment.model";
+import _ from "lodash";
 
 export function createPost(input: DocumentDefinition<PostDocument>) {
   return Post.create(input);
@@ -49,7 +52,7 @@ export async function getManyPost(query: object) {
   }
   try {
     if (search == "") {
-      const posts = await Post.find()
+      const posts = await Post.find({},{"comments":0})
         .limit(per_page)
         .skip(per_page * (page - 1))
         .sort(sortMethod);
@@ -57,7 +60,7 @@ export async function getManyPost(query: object) {
       const last_page = Math.ceil(count / per_page);
       return { count, last_page, posts };
     } else {
-      const posts = await Post.find({ $text: { $search: search } })
+      const posts = await Post.find({ $text: { $search: search } },{"comments":0})
         .limit(per_page)
         .skip(per_page * (page - 1))
         .sort(sortMethod);
@@ -100,14 +103,14 @@ export async function getMyPost(query: object, userId: object) {
       break;
   }
   try {
-    const posts = await Post.find({ user:userId})
-        .limit(per_page)
-        .skip(per_page * (page - 1))
-        .sort(sortMethod);
-      const x = await Post.find({ user:userId});
-      const count = x.length;
-      const last_page = Math.ceil(count / per_page);
-      return { count, last_page, posts };
+    const posts = await Post.find({ user: userId },{"comments":0})
+      .limit(per_page)
+      .skip(per_page * (page - 1))
+      .sort(sortMethod);
+    const x = await Post.find({ user: userId });
+    const count = x.length;
+    const last_page = Math.ceil(count / per_page);
+    return { count, last_page, posts };
   } catch (error) {
     console.log(error);
   }
@@ -124,3 +127,16 @@ export function findAndUpdate(
 export function deletePost(query: FilterQuery<PostDocument>) {
   return Post.deleteOne(query);
 }
+// export async function validateData(posts: Array<any>) {
+//   let tempPosts = posts;
+//   for(var j = 0;j<tempPosts.length;j++){
+//     const data = tempPosts[j].comments.data;
+//     for (var i = 0; i < data.length; i++) {
+//       const a = await findUser({ _id: data[i].user });
+//       // console.log(a);
+//       data[i].userInfo = a;
+//     }
+//   }
+//   return tempPosts
+  
+// }
